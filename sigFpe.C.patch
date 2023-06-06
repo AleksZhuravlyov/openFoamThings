@@ -1,0 +1,29 @@
+diff --git a/src/OSspecific/POSIX/signals/sigFpe.C b/src/OSspecific/POSIX/signals/sigFpe.C
+index ae9099d9d..8e90fb97f 100644
+--- a/src/OSspecific/POSIX/signals/sigFpe.C
++++ b/src/OSspecific/POSIX/signals/sigFpe.C
+@@ -38,7 +38,8 @@ License
+ #endif
+ 
+ #if defined(darwin64)
+-#include <xmmintrin.h>
++// #include <xmmintrin.h>
++#define BTL_DISABLE_SSE_EXCEPTIONS()
+ #include <sys/mman.h>
+ #include <unistd.h>
+ #endif
+@@ -211,10 +212,10 @@ void Foam::sigFpe::set(const bool verbose)
+           | FE_OVERFLOW
+         );
+         #endif  // LINUX_GNUC
+-        #if defined(darwin64)
+-        _mm_setcsr(_MM_MASK_MASK &~
+-                   (_MM_MASK_OVERFLOW|_MM_MASK_INVALID|_MM_MASK_DIV_ZERO));
+-        #endif
++        // #if defined(darwin64)
++        // _mm_setcsr(_MM_MASK_MASK &~
++        //            (_MM_MASK_OVERFLOW|_MM_MASK_INVALID|_MM_MASK_DIV_ZERO));
++        // #endif
+ 
+         struct sigaction newAction;
+         newAction.sa_handler = sigHandler;
